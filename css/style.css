@@ -60,3 +60,28 @@ body
 	bottom: 0;
 	width: 100%;
 }
+
+.markdown-output
+{
+	margin-right: 20px;
+}
+
+.markdown-output h1
+{
+	font-size: 24px;
+}
+
+.markdown-output h2
+{
+	font-size: 22px;
+}
+
+.markdown-output h3
+{
+	font-size: 20px;
+}
+
+.markdown-output hr
+{
+	border-color: gray;
+}
