@@ -21,7 +21,7 @@ var App = Ember.Application.create({
 	data: AppData.create({
 		nowPlaying: NowPlaying.create()
 	}),
-	delay: 5000,
+	delay: 60000,
 	updater: function() {
 		var self = this;
 		$.get(change_url).then(function(response) {
