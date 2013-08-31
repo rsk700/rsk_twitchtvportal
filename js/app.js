@@ -16,6 +16,7 @@ AppData = Ember.Object.extend({
 });
 
 var App = Ember.Application.create({
+	rootElement: '#app',
 	change: 0,
 	data: AppData.create({
 		nowPlaying: NowPlaying.create()
