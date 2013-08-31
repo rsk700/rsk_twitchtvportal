@@ -12,6 +12,7 @@ AppData = Ember.Object.extend({
 	aliveDuration: 0,
 	nowPlaying: null,
 	deathCounter: 0,
+	goal: '',
 	desc: ''
 });
 
@@ -39,6 +40,7 @@ App.reopen({
 				'title',
 				'streamDuration',
 				'aliveDuration',
+				'goal',
 				'desc',
 				'deathCounter'
 			];

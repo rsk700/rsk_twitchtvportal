@@ -54,8 +54,10 @@
 			<span style="font-size: 18pt">{{deathCounter}}</span>
 			<h3>Now Playing</h3>
 			<a {{bindAttr href="nowPlaying.url"}}>{{nowPlaying.name}}</a>
+			{{#if goal}}
 			<h3>Today's goal</h3>
-			<span>goal</span>
+			<span>{{goal}}</span>
+			{{/if}}
 			<h3>Links</h3>
 			<ul class="list-unstyled">
 				<li><a href="http://www.twitch.tv/rsk700">Channel at TwitchTV</a></li>
