@@ -1,0 +1,63 @@
+body
+{
+	background-image: url(/img/background.jpg);
+}
+
+.left-block,
+.center-block,
+.right-block
+{
+/*	border-style: solid;
+	border-width: 1px;
+	border-color: red;
+*/
+}
+
+.left-block,
+.right-block
+{
+	position: fixed;
+	width: 320px;
+	top: 0;
+	bottom: 0;
+}
+
+.right-block
+{
+	right: 0;
+}
+
+.left-block
+{
+	left: 0;
+	padding: 0 20px;
+}
+
+#center-block
+{
+	position: absolute;
+	left: 320px;
+	right: 320px;
+	top: 0;
+}
+
+#chat_embed
+{
+	height: 100%;
+}
+
+.ad-box
+{
+	width: 320px;
+	height: 50px;
+	background-color: coral;
+}
+
+.chat-box
+{
+	position: absolute;
+	top: 50px;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+}

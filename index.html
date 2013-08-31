@@ -1,1 +1,102 @@
-Hello
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+	<title>RSK's Live Game Stream</title>
+	<link rel="stylesheet" href="/css/bootstrap.css" type="text/css" media="screen" charset="utf-8">
+	<link rel="stylesheet" href="/css/style.css" type="text/css" media="screen" charset="utf-8">
+	<script src="/js/jquery.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/handlebars.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/ember.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/markdown.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/bootstrap.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/tools.js" type="text/javascript" charset="utf-8"></script>
+	<script src="/js/app.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript" charset="utf-8">
+		function updatePlayerSize() {
+			var ratio = 1.64;
+			var e = document.getElementById('center-block');
+			if(e) {
+				var w = e.clientWidth,
+				h = w/ratio;
+				if(w>300) {
+					w = Math.floor(w).toString();
+					h = Math.floor(h).toString();
+					e = document.getElementById('live_embed_player_flash');
+					if(e) {
+						e.style.width = w + 'px';
+						e.style.height = h + 'px';
+					}
+				}
+			}
+		}
+
+		function init() {
+			$(document).ready(function() {
+				updatePlayerSize();
+				$.get('https://dl.dropboxusercontent.com/u/1234083/test.json', function(data){alert(data.v)});
+			});
+		}
+	</script>
+	
+</head>
+<body onresize="updatePlayerSize()" onload="init()">
+	<script type="text/x-handlebars" data-template-name="index">
+	<div class="left-block">
+		<div style="background-color: rgba(255,255,255,0.7); padding: 10px; border-top-style: solid; border-top-width: 4px; border-top-color: red">
+			<h3>Streaming</h3>
+			<span style="font-size: 18pt">{{streamDuration.h}}h</span> <b>{{streamDuration.m}}m</b>
+			<h3>Alive</h3>
+			<span style="font-size: 18pt">{{aliveDuration.h}}h</span> <b>{{aliveDuration.m}}m</b>
+			<h3>Death Counter</h3>
+			<span style="font-size: 18pt">{{deathCounter}}</span>
+			<h3>Now Playing</h3>
+			<a {{bindAttr href="nowPlaying.url"}}>{{nowPlaying.name}}</a>
+			<h3>Today's goal</h3>
+			<span>goal</span>
+			<h3>Links</h3>
+			<ul class="list-unstyled">
+				<li><a href="http://www.twitch.tv/rsk700">Channel at TwitchTV</a></li>
+				<li><a href="http://thrc.rsklab.com/">Terraria Handy Recipe Calculator</a></li>
+				<li><a href="http://terraria.wikia.com/wiki/Terraria_Wiki">Terraria Wiki</a></li>
+				<li><a href="https://www.youtube.com/channel/UCgkeoc9SpdpvGA9A5zwaQcQ">My Youtube</a></li>
+			</ul>
+		</div>
+	</div>
+	<div id="center-block">
+		<h3>{{title}}</h3>
+		<object type="application/x-shockwave-flash" 
+			height="378" 
+			width="620" 
+			id="live_embed_player_flash" 
+			data="http://www.twitch.tv/widgets/live_embed_player.swf?channel=rsk700" 
+			bgcolor="#000000">
+			<param  name="allowFullScreen" 
+			value="true" />
+			<param  name="allowScriptAccess" 
+			value="always" />
+			<param  name="allowNetworking" 
+			value="all" />
+			<param  name="movie" 
+			value="http://www.twitch.tv/widgets/live_embed_player.swf" />
+			<param  name="flashvars" 
+			value="hostname=www.twitch.tv&channel=rsk700&auto_play=true&start_volume=25" />
+		</object>
+		<div class="markdown-output">{{{desc}}}</div>
+	</div>
+	<div class="right-block">
+		<div class="ad-box">ads</div>
+		<div class="chat-box">
+			<iframe frameborder="0" 
+				scrolling="no" 
+				id="chat_embed" 
+				src="http://twitch.tv/chat/embed?channel=rsk700&amp;popout_chat=true" 
+				width="320">
+			</iframe>
+		</div>
+	</div>
+	</script>
+</body>
+</html>
