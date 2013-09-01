@@ -46,14 +46,14 @@
 	<script type="text/x-handlebars" data-template-name="index">
 	<div class="left-block">
 		<div style="background-color: rgba(255,255,255,0.7); padding: 10px; border-top-style: solid; border-top-width: 4px; border-top-color: red">
+			<h3>Now Playing</h3>
+			<h4><a {{bindAttr href="nowPlaying.url"}}>{{nowPlaying.name}}</a></h4>
 			<h3>Streaming</h3>
 			<span style="font-size: 18pt">{{streamDuration.h}}h</span> <b>{{streamDuration.m}}m</b>
 			<h3>Alive</h3>
 			<span style="font-size: 18pt">{{aliveDuration.h}}h</span> <b>{{aliveDuration.m}}m</b>
 			<h3>Death Counter</h3>
 			<span style="font-size: 18pt">{{deathCounter}}</span>
-			<h3>Now Playing</h3>
-			<a {{bindAttr href="nowPlaying.url"}}>{{nowPlaying.name}}</a>
 			{{#if goal}}
 			<h3>Today's goal</h3>
 			<span>{{goal}}</span>
