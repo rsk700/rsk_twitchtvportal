@@ -45,7 +45,7 @@
 <body onresize="updatePlayerSize()" onload="init()">
 	<script type="text/x-handlebars" data-template-name="index">
 	<div class="left-block">
-		<div style="background-color: rgba(255,255,255,0.7); padding: 10px; border-top-style: solid; border-top-width: 4px; border-top-color: red">
+		<div style="background-color: rgba(255,255,255,0.7); padding: 10px; border-top-style: solid; border-top-width: 4px; border-top-color: red; height: 100%">
 			<h3>Now Playing</h3>
 			<h4><a {{bindAttr href="nowPlaying.url"}}>{{nowPlaying.name}}</a></h4>
 			<h3>Streaming</h3>
@@ -55,7 +55,7 @@
 			<h3>Death Counter</h3>
 			<span style="font-size: 18pt">{{deathCounter}}</span>
 			{{#if goal}}
-			<h3>Today's goal</h3>
+			<h3>Today's Goal</h3>
 			<span>{{goal}}</span>
 			{{/if}}
 			<h3>Links</h3>
@@ -64,6 +64,11 @@
 				<li><a href="http://thrc.rsklab.com/">Terraria Handy Recipe Calculator</a></li>
 				<li><a href="http://terraria.wikia.com/wiki/Terraria_Wiki">Terraria Wiki</a></li>
 				<li><a href="https://www.youtube.com/channel/UCgkeoc9SpdpvGA9A5zwaQcQ">My Youtube</a></li>
+			</ul>
+			<h3>Support Channel</h3>
+			<ul class="list-unstyled">
+				<li>Purchase games on <a href="http://www.gamefanshop.com/partner-RSK/">GameFanShop</a></li>
+				<li>Whitelist in AdBlocker <a href="http://livestream.rsk.me">livestream.rsk.me</a></li>
 			</ul>
 		</div>
 	</div>
