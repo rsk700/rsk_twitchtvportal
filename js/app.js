@@ -18,6 +18,7 @@ AppData = Ember.Object.extend({
 
 var App = Ember.Application.create({
 	rootElement: '#app',
+	t12Countdown: 0,
 	change: 0,
 	data: AppData.create({
 		nowPlaying: NowPlaying.create()
@@ -27,7 +28,13 @@ var App = Ember.Application.create({
 		var self = this;
 		$.get(change_url).then(function(response) {
 			self.set('change', response.c);
-		})
+		});
+		releaseDate = new Date(2013, 9, 1, 0, 0);
+		today = new Date();
+		countdown = releaseDate - today;
+		countdown = countdown/1000/3600;
+		countdown = Math.floor(countdown);
+		this.set('t12Countdown', countdown);
 		Ember.run.later(this, this.updater, this.delay);
 	}
 });
@@ -64,6 +71,9 @@ App.IndexRoute = Ember.Route.extend({
 })
 
 App.IndexController = Ember.ObjectController.extend({
+	t12Countdown: function() {
+		return App.get('t12Countdown');
+	}.property('App.t12Countdown'),
 	init: function() {
 		this.get('streamDuration');
 		this.get('aliveDuration');
