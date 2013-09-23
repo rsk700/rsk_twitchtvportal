@@ -71,16 +71,16 @@ App.Games = Ember.Object.extend({
 
 App.IndexRoute = Ember.Route.extend({
 	setupController: function(controller) {
-		var fbRef = getFirebase(),
-			auth = new FirebaseSimpleLogin(fbRef, function(error, user) {
-				if (!error && user) {
-					console.log('Logged in as ' + user.email);
-				}
-				else {
-					console.log('Error on login ' + error);
-				}
-			});
 		if(App.get('username') && App.get('password')) {
+			var fbRef = getFirebase(),
+				auth = new FirebaseSimpleLogin(fbRef, function(error, user) {
+					if (!error && user) {
+						console.log('Logged in as ' + user.email);
+					}
+					else {
+						console.log('Error on login ' + error);
+					}
+				});
 			auth.login('password', {
 				email: App.get('username'),
 				password: App.get('password'),
