@@ -55,7 +55,6 @@ App.Game = Ember.Object.extend({
 });
 
 App.TerrariaGame = App.Game.extend({
-	deathCounter: 0,
 	alive: 0,
 	aliveDurationH: function(){
 		return totalHours(this.get('alive'))
@@ -65,8 +64,46 @@ App.TerrariaGame = App.Game.extend({
 	}.property('alive')
 });
 
+App.Hexen2Game = App.Game.extend({
+	time: 0,
+	gameplayDurationH: function(){
+		return totalHours(this.get('time'))
+	}.property('time'),
+	gameplayDurationM: function(){
+		return totalMinutes(this.get('time'))
+	}.property('time'),
+	experienceI: function(){
+		return parseInt(this.get('experience'));
+	}.property('experience'),
+	healthI: function(){
+		return parseInt(this.get('health'));
+	}.property('health'),
+	max_healthI: function(){
+		return parseInt(this.get('max_health'));
+	}.property('max_health'),
+	bluemanaI: function(){
+		return parseInt(this.get('bluemana'));
+	}.property('bluemana'),
+	greenmanaI: function(){
+		return parseInt(this.get('greenmana'));
+	}.property('greenmana'),
+	max_manaI: function(){
+		return parseInt(this.get('max_mana'));
+	}.property('max_mana'),
+	dexterityI: function(){
+		return parseInt(this.get('dexterity'));
+	}.property('dexterity'),
+	strengthI: function(){
+		return parseInt(this.get('strength'));
+	}.property('strength'),
+	wisdomI: function(){
+		return parseInt(this.get('wisdom'));
+	}.property('wisdom'),
+});
+
 App.Games = Ember.Object.extend({
-	terraria: App.TerrariaGame.create()
+	terraria: App.TerrariaGame.create(),
+	hexen2: App.Hexen2Game.create()
 });
 
 App.IndexRoute = Ember.Route.extend({
@@ -97,10 +134,8 @@ App.IndexRoute = Ember.Route.extend({
 		});
 		getFirebase('games').on('value', function(s) {
 			var val = s.val();
-			controller.set('games.terraria.name', val.terraria.name);
-			controller.set('games.terraria.url', val.terraria.url);
-			controller.set('games.terraria.deathCounter', val.terraria.deathCounter);
-			controller.set('games.terraria.alive', val.terraria.alive);
+			controller.get('games.terraria').setProperties(val.terraria);
+			controller.get('games.hexen2').setProperties(val.hexen2);
 		});
 	}
 });
@@ -111,6 +146,9 @@ App.IndexController = Ember.ObjectController.extend({
 	games: App.Games.create(),
 	playingTerraria: function() {
 		return this.get('game') == 'terraria';
+	}.property('game'),
+	playingHexen2: function() {
+		return this.get('game') == 'hexen2';
 	}.property('game'),
 	currentGame: function() {
 		return this.get('games.' + this.get('game'));

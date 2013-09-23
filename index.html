@@ -45,6 +45,28 @@
 			<h4><a {{bindAttr href="currentGame.url"}}>{{currentGame.name}}</a></h4>
 			<h3>Streaming</h3>
 			<span style="font-size: 18pt">{{stream.streamDurationH}}h</span> <b>{{stream.streamDurationM}}m</b>
+			{{#if playingHexen2}}
+				<h3>Gameplay time</h3>
+				<span style="font-size: 18pt">{{games.hexen2.gameplayDurationH}}h</span> <b>{{games.hexen2.gameplayDurationM}}m</b>
+				<br>
+				<b>Experience</b>
+				{{games.hexen2.experienceI}}
+				<br>
+				<b>Health</b>
+				<span style="color: red">{{games.hexen2.healthI}}/{{games.hexen2.max_healthI}}</span>
+				<br>
+				<b>Mana</b>
+				<span style="color: blue">{{games.hexen2.bluemanaI}}</span>,<span style="color: green">{{games.hexen2.greenmanaI}}</span>/{{games.hexen2.max_manaI}}
+				<br>
+				<b>Dexterity</b>
+				{{games.hexen2.dexterityI}}
+				<br>
+				<b>Strength</b>
+				{{games.hexen2.strengthI}}
+				<br>
+				<b>Wisdom</b>
+				{{games.hexen2.wisdomI}}
+			{{/if}}
 			{{#if playingTerraria}}
 				<h3>Alive</h3>
 				<span style="font-size: 18pt">{{games.terraria.aliveDurationH}}h</span> <b>{{games.terraria.aliveDurationM}}m</b>
