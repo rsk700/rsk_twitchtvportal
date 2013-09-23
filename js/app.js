@@ -1,34 +1,23 @@
-var change_url = 'https://dl.dropboxusercontent.com/u/1234083/TwitchTVPortal/change.json';
-var data_url = 'https://dl.dropboxusercontent.com/u/1234083/TwitchTVPortal/data.json';
+var fb_url = 'https://rsk-livestream.firebaseio.com/';
 
-NowPlaying = Ember.Object.extend({
-		name: '',
-		url: ''
-});
-
-AppData = Ember.Object.extend({
-	title: '',
-	streamDuration: 0,
-	aliveDuration: 0,
-	nowPlaying: null,
-	deathCounter: 0,
-	goal: '',
-	desc: ''
-});
+function getFirebase(name) {
+	var firebaseRef;
+	if(name) {
+		var firebaseRef = new Firebase(fb_url + name + '/');
+	}
+	else {
+		var firebaseRef = new Firebase(fb_url);
+	}
+	return firebaseRef;
+};
 
 var App = Ember.Application.create({
+	username: '',
+	password: '',
 	rootElement: '#app',
 	t12Countdown: 0,
-	change: 0,
-	data: AppData.create({
-		nowPlaying: NowPlaying.create()
-	}),
 	delay: 60000,
 	updater: function() {
-		var self = this;
-		$.get(change_url).then(function(response) {
-			self.set('change', response.c);
-		});
 		releaseDate = new Date(2013, 9, 1, 0, 0);
 		today = new Date();
 		countdown = releaseDate - today;
@@ -39,60 +28,99 @@ var App = Ember.Application.create({
 	}
 });
 
-App.reopen({
-	onChange: function(){
-		var self = this;
-		$.get(data_url).then(function(response) {
-			var names = [
-				'title',
-				'streamDuration',
-				'aliveDuration',
-				'goal',
-				'desc',
-				'deathCounter'
-			];
-			names.forEach(function(name) {
-				self.set('data.'+name, response[name])
-			});
-			self.set('data.nowPlaying.name', response.nowPlaying.name);
-			self.set('data.nowPlaying.url', response.nowPlaying.url);
-		});
-	}.observes('change')
+App.Stream = Ember.Object.extend({
+	title: '',
+	goal: '',
+	desc: '',
+	game: '',
+	duration: 0,
+	t12Countdown: 0,
+	fbUpdate: [
+		'title',
+		'goal',
+		'desc',
+		'duration'
+	],
+	streamDurationH: function() {
+		return totalHours(this.get('duration'));
+	}.property('duration'),
+	streamDurationM: function() {
+		return totalMinutes(this.get('duration'));
+	}.property('duration')
 });
 
-App.Router.map(function() {
-	this.route('index', { path: '/' });
+App.Game = Ember.Object.extend({
+	name: '',
+	url: ''
+});
+
+App.TerrariaGame = App.Game.extend({
+	deathCounter: 0,
+	alive: 0,
+	aliveDurationH: function(){
+		return totalHours(this.get('alive'))
+	}.property('alive'),
+	aliveDurationM: function(){
+		return totalMinutes(this.get('alive'))
+	}.property('alive')
+});
+
+App.Games = Ember.Object.extend({
+	terraria: App.TerrariaGame.create()
 });
 
 App.IndexRoute = Ember.Route.extend({
-	model: function() {
-		return App.data;
+	setupController: function(controller) {
+		var fbRef = getFirebase(),
+			auth = new FirebaseSimpleLogin(fbRef, function(error, user) {
+				if (!error && user) {
+					console.log('Logged in as ' + user.email);
+				}
+				else {
+					console.log('Error on login ' + error);
+				}
+			});
+		if(App.get('username') && App.get('password')) {
+			auth.login('password', {
+				email: App.get('username'),
+				password: App.get('password'),
+			});
+		}
+		getFirebase('game').on('value', function(s) {
+			controller.set('game', s.val());
+		});
+		getFirebase('stream').on('value', function(s) {
+			var val = s.val();
+			controller.get('stream.fbUpdate').forEach(function(name) {
+				controller.set('stream.' + name, val[name]);
+			});
+		});
+		getFirebase('games').on('value', function(s) {
+			var val = s.val();
+			controller.set('games.terraria.name', val.terraria.name);
+			controller.set('games.terraria.url', val.terraria.url);
+			controller.set('games.terraria.deathCounter', val.terraria.deathCounter);
+			controller.set('games.terraria.alive', val.terraria.alive);
+		});
 	}
-})
+});
 
 App.IndexController = Ember.ObjectController.extend({
+	stream: App.Stream.create(),
+	game: '',
+	games: App.Games.create(),
+	playingTerraria: function() {
+		return this.get('game') == 'terraria';
+	}.property('game'),
+	currentGame: function() {
+		return this.get('games.' + this.get('game'));
+	}.property('game'),
 	t12Countdown: function() {
 		return App.get('t12Countdown');
 	}.property('App.t12Countdown'),
-	init: function() {
-		this.get('streamDuration');
-		this.get('aliveDuration');
-	},
-	streamDuration: function() {
-		return {
-			h: totalHours(this.get('model.streamDuration')),
-			m: totalMinutes(this.get('model.streamDuration'))
-		}
-	}.property('App.data.streamDuration'),
-	aliveDuration: function() {
-		return {
-			h: totalHours(this.get('model.aliveDuration')),
-			m: totalMinutes(this.get('model.aliveDuration'))
-		}
-	}.property('App.data.aliveDuration'),
 	desc: function() {
-		return markdown.toHTML(this.get('model.desc'));
-	}.property('App.data.desc')
+		return markdown.toHTML(this.get('stream.desc'));
+	}.property('stream.desc')
 })
 
 
