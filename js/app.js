@@ -99,6 +99,9 @@ App.Hexen2Game = App.Game.extend({
 	wisdomI: function(){
 		return parseInt(this.get('wisdom'));
 	}.property('wisdom'),
+	intelligenceI: function(){
+		return parseInt(this.get('intelligence'));
+	}.property('intelligenceI'),
 });
 
 App.Games = Ember.Object.extend({
