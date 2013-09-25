@@ -75,6 +75,9 @@ App.Hexen2Game = App.Game.extend({
 	experienceI: function(){
 		return parseInt(this.get('experience'));
 	}.property('experience'),
+	levelI: function(){
+		return parseInt(this.get('level'));
+	}.property('level'),
 	healthI: function(){
 		return parseInt(this.get('health'));
 	}.property('health'),
