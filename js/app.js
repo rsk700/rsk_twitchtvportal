@@ -15,17 +15,6 @@ var App = Ember.Application.create({
 	username: '',
 	password: '',
 	rootElement: '#app',
-	t12Countdown: 0,
-	delay: 60000,
-	updater: function() {
-		releaseDate = new Date(2013, 9, 1, 0, 0);
-		today = new Date();
-		countdown = releaseDate - today;
-		countdown = countdown/1000/3600;
-		countdown = Math.floor(countdown);
-		this.set('t12Countdown', countdown);
-		Ember.run.later(this, this.updater, this.delay);
-	}
 });
 
 App.Stream = Ember.Object.extend({
@@ -166,6 +155,3 @@ App.IndexController = Ember.ObjectController.extend({
 		return markdown.toHTML(this.get('stream.desc'));
 	}.property('stream.desc')
 })
-
-
-App.updater();
